@@ -1,3 +1,25 @@
+# csvize_geoheaders/geoheader.py
+# Copyright 2013 University of South Florida
+# Author: Donald J. Hayward, GIS group at CUTR
+# http://www.cutr.usf.edu/
+#
+# This file is part of census-tools.
+#
+# Census-tools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Census-tools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with census-tools.  If not, see <http://www.gnu.org/licenses/>.
+
+# -- Configuration Options -- #
+
 geohead_base = {'host': "ftp.census.gov", 'cwd': "/census_2010/01-Redistricting_File--PL_94-171/"}
 data_folder = "./geohead_data/"
 download_and_unzip = False
