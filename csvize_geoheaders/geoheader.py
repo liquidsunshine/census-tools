@@ -67,6 +67,8 @@ if __name__ == '__main__':
 
   if not os.path.isdir(data_folder):
     os.makedirs(data_folder)
+  if not os.path.isdir(output_folder):
+    os.makedirs(output_folder)
 
   if download_and_unzip:
     for folder,zzzzz,fnames in host.walk(geohead_base["cwd"]):
