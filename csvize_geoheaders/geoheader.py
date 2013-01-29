@@ -22,7 +22,10 @@
 
 geohead_base = {'host': "ftp.census.gov", 'cwd': "/census_2010/01-Redistricting_File--PL_94-171/"}
 data_folder = "./geohead_data/"
+output_folder = "./output/"
 download_and_unzip = False
+generate_sql = True
+compile_csv = True
 
 # -- Stuff -- #
 
@@ -53,7 +56,10 @@ def parse_file(filename, structure = structure2010, return_type = "dict"):
   with open(filename) as f:
     for rec_str in f:
       yield parse_record( rec_str, structure, return_type )
-
+      
+def get_sql(structure = structure2010):
+  return "CREATE TABLE geoheader ({0});".format( ', '.join( "{0} {1}({2})".format(col_id, var_type, length) for (col_id, length, start, var_type) in structure ) )
+    
 if __name__ == '__main__':
     
   # Download some files from the login directory.
@@ -77,13 +83,18 @@ if __name__ == '__main__':
 		print "Extracting {0}".format(zf.filename)
 		state_zip.extract(zf, data_folder)
 
-  with open(data_folder+'all_geoheaders.csv', 'wb') as csvfile:
-    writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    
-    for f in os.listdir(data_folder):
-      if f[2:] == "geo2010.pl":
-	record_list = parse_file(data_folder+f, return_type="list")
-	print "Writing {0} to CSV".format(f)
-	for r in record_list:
-	  writer.writerow(r)  
-	del record_list
+  if compile_csv:
+    with open(output_folder+'all_geoheaders.csv', 'wb') as csvfile:
+      writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+      
+      for f in os.listdir(data_folder):
+	if f[2:] == "geo2010.pl":
+	  record_list = parse_file(data_folder+f, return_type="list")
+	  print "Writing {0} to CSV".format(f)
+	  for r in record_list:
+	    writer.writerow(r)  
+	  del record_list
+
+  if generate_sql:
+    with open(output_folder+'create_table.sql', 'wb') as sqlfile:
+      sqlfile.write( get_sql() )

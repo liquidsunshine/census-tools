@@ -3,3 +3,6 @@
 
 # data directory (big!)
 geohead_data
+
+# final output directory (also big!)
+output
