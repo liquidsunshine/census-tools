@@ -53,9 +53,9 @@ def parse_record(rec_str, structure = structure2010, return_type = "dict"):
   return record
   
 def parse_file(filename, structure = structure2010, return_type = "dict"):
-  with open(filename) as f:
+  with open(filename, 'r') as f:
     for rec_str in f:
-      yield parse_record( rec_str, structure, return_type )
+      yield parse_record( rec_str.decode('latin-1').encode('utf8'), structure, return_type )
       
 def get_sql(structure = structure2010):
   return "CREATE TABLE geoheader ({0});".format( ', '.join( "{0} {1}({2})".format(col_id, var_type, length) for (col_id, length, start, var_type) in structure ) )
@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
   if compile_csv:
     with open(output_folder+'all_geoheaders.csv', 'wb') as csvfile:
-      writer = csv.UnicodeWriter(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+      writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
       
       for f in os.listdir(data_folder):
 	if f[2:] == "geo2010.pl":
