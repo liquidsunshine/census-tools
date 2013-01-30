@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
   if compile_csv:
     with open(output_folder+'all_geoheaders.csv', 'wb') as csvfile:
-      writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+      writer = csv.UnicodeWriter(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
       
       for f in os.listdir(data_folder):
 	if f[2:] == "geo2010.pl":
